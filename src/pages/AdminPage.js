@@ -141,7 +141,7 @@ export default function AdminPage() {
       const saved = await listingsAPI.create({
         title: form.title.trim(), region: form.region || 'Nairobi',
         category: form.category || 'For Sale · Ready', price: parseFloat(form.price),
-        description: form.desc || '', youtube_url: form.yt || '',
+        description: form.desc || '', youtube_url: form.youtube_url || '',
         beds: form.beds || '', baths: form.baths || '', sqm: form.sqm || '',
         location: form.location || '', files: uploadedFiles.map(f => f.file),
       });
@@ -432,7 +432,7 @@ function AddForm({ form, setF, formAmenities, toggleFAmen, uploadedFiles, setUpl
           {fi('beds', 'Bedrooms', 'number', '4')}
           {fi('baths', 'Bathrooms', 'number', '4')}
           {fi('sqm', 'Size (sqm)', 'number', '280')}
-          {fi('yt', 'YouTube URL', 'url', 'https://youtube.com/watch?v=...')}
+          {fi('youtube_url', 'YouTube URL', 'url', 'https://youtube.com/watch?v=...')}
           <div style={{ gridColumn: 'span 2' }} className="adm-span2">
             <div style={s.fgrp}><label style={s.flabel}>Description</label>
               <textarea value={form.desc || ''} onChange={e => setF('desc', e.target.value)} placeholder="Property description..." maxLength={1000} style={{ ...s.ai, minHeight: '88px', resize: 'vertical' }} />
