@@ -89,6 +89,24 @@ export const listingsAPI = {
         return imgRes.json(); // returns full listing with images
     },
 
+    update: async (id, fields) => {
+        const token = localStorage.getItem(TOKEN_KEY);
+        const res = await fetch(`${BASE_URL}/api/listings/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify(fields),
+        });
+        if (!res.ok) {
+            let message = `Error ${res.status}`;
+            try { const err = await res.json(); message = err.detail || message; } catch (_) { }
+            throw new Error(message);
+        }
+        return res.json();
+    },
+
     delete: async (id) => {
         const token = localStorage.getItem(TOKEN_KEY);
         const res = await fetch(`${BASE_URL}/api/listings/${id}`, {
