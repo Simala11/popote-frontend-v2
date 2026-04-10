@@ -3,15 +3,15 @@ import { AppContext } from '../App';
 
 const WA_NUMBER = '254739101811';
 
-// ─── Helper: parse image_url field from backend ───────────────────────────────
-// Backend stores comma-separated Cloudinary URLs in image_url
-// Old local format stored { dataUrl } objects in images[]
+// ─── Helper: parse images from backend ───────────────────────────────────────
+// Backend returns images as array of objects: [{ id, url, public_id, ... }]
+// Fallback: comma-separated image_url string or legacy { dataUrl } objects
 function getImages(listing) {
+  if (listing.images?.length) {
+    return listing.images.map(i => i.url || i.dataUrl || i).filter(Boolean);
+  }
   if (listing.image_url) {
     return listing.image_url.split(',').map(u => u.trim()).filter(Boolean);
-  }
-  if (listing.images?.length) {
-    return listing.images.map(i => i.dataUrl || i).filter(Boolean);
   }
   return [];
 }
@@ -71,7 +71,7 @@ export function PropertyCard({ listing }) {
   const [saved, setSaved] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  // ✅ Reads from backend image_url (comma-separated) or legacy local images[]
+  // ✅ Reads from backend images array (objects with url) or fallback formats
   const imgs = getImages(listing);
   const img = imgs[0] || PLACEHOLDER;
 
