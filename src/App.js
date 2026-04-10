@@ -58,7 +58,7 @@ function App() {
     if (!adminToken) return;
     enquiriesAPI.getAll(adminToken)
       .then(data => {
-        const arr = Array.isArray(data) ? data : (data?.results ?? []); // ✅ fixed
+        const arr = Array.isArray(data) ? data : (data?.results ?? []);
         setEnquiries(arr);
       })
       .catch(() => { });
@@ -74,7 +74,7 @@ function App() {
       }),
     };
     try {
-      const saved = await enquiriesAPI.create(enq);
+      const saved = await enquiriesAPI.submit(enq);
       setEnquiries(prev => [...prev, { ...local, ...saved }]);
     } catch {
       setEnquiries(prev => [...prev, local]);
