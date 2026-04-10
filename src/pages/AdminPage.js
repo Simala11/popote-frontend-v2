@@ -250,10 +250,10 @@ function LoginScreen({ email, setEmail, pw, setPw, authErr, lockInfo, attemptsMs
         <div style={ls.sub}>Admin Portal — Authorised Access Only</div>
         {lockInfo !== null && <div style={ls.lockWarn}>🔒 Account temporarily locked. Please wait <strong>{lockInfo}s</strong>.</div>}
         {authErr && <div style={ls.errBox}>{authErr}</div>}
-        <label style={ls.label}>username</label>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && onLogin()} placeholder="admin@popotelistings.co.ke" maxLength={150} style={ls.input} autoComplete="email" />
+        <label style={ls.label}>Username</label>
+        <input type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && onLogin()} maxLength={150} style={ls.input} autoComplete="email" />
         <label style={ls.label}>Password</label>
-        <input type="password" value={pw} onChange={e => setPw(e.target.value)} onKeyDown={e => e.key === 'Enter' && onLogin()} placeholder="Enter admin password" maxLength={60} style={ls.input} autoComplete="current-password" />
+        <input type="password" value={pw} onChange={e => setPw(e.target.value)} onKeyDown={e => e.key === 'Enter' && onLogin()} maxLength={60} style={ls.input} autoComplete="current-password" />
         <button style={ls.btn} onClick={onLogin} disabled={loading || lockInfo !== null}>{loading ? 'Signing in...' : 'Sign In →'}</button>
         <div style={ls.rateNote}>🔐 Authenticated via secure backend</div>
         {attemptsMsg && <div style={ls.attemptsMsg}>{attemptsMsg}</div>}

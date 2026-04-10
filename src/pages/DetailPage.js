@@ -31,13 +31,16 @@ function injectOnce(id, css) {
   }
 }
 
-// ✅ Parse backend image_url (comma-separated) or legacy local images[]
+// ✅ Backend returns images as array of objects: [{ id, url, public_id, ... }]
+// Fallback: comma-separated image_url string or legacy { dataUrl } objects
 function getImages(l) {
+  if (l.images?.length) {
+    return l.images.map(i => i.url || i.dataUrl || i).filter(Boolean);
+  }
   if (l.image_url) {
     const imgs = l.image_url.split(',').map(u => u.trim()).filter(Boolean);
     if (imgs.length) return imgs;
   }
-  if (l.images?.length) return l.images.map(i => i.dataUrl || i).filter(Boolean);
   return [];
 }
 
@@ -75,7 +78,7 @@ export default function DetailPage() {
     </div>
   );
 
-  // ✅ Images — from backend image_url field, no hardcoded fallbacks
+  // ✅ Images — from backend images array (objects with url field)
   const allImgs = getImages(l);
   if (!allImgs.length) allImgs.push(PLACEHOLDER);
 
